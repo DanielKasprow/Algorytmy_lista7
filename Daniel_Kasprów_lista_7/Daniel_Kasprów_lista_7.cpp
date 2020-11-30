@@ -6,19 +6,52 @@ int *key, *p, *leftt, *rightt,root=0,i = 0;;
 
 void bst_inorder(int x)
 {
-	if (x != 0)
+	if (x == 0)
+		return;
+
+	int current = root;
+	int pre;
+	while (current != 0)
+	{
+		if (leftt[current] == 0)
+		{
+			cout << key[current] << " ";
+			if(rightt[current !=0])
+			current = rightt[current];
+		}
+		else
+		{
+			pre = leftt[current];
+			while (rightt[pre] != 0 && rightt[pre] != current)
+			{
+				pre = rightt[pre];
+			}
+			if (pre[rightt] == 0)
+			{
+				pre[rightt] = current;
+				current = leftt[current];
+			}
+			else
+			{
+				//rightt[pre] = 0;
+				cout << key[current] << " ";
+				current = rightt[current];
+			}
+		}
+	}
+	/*if (x != 0)
 	{
 		bst_inorder(leftt[x]);
 		cout << key[x]<<" ";
 		bst_inorder(rightt[x]);
-	}
+	}*/
 }
 void bst_insert(int z)
 {
 	i++;
 	key[i] = z;
 
-	int x = root;//korzen drzewa
+	int x = root;//wiercholek drzewa
 	int y=0;
 	int k = key[i];//k nowy element
 	while (x != 0)
@@ -44,11 +77,11 @@ void bst_insert(int z)
 	{
 		if (k < key[y])
 		{
-			leftt[y] = i;//przypisanie dziecka do lewego poddrzewa
+			leftt[y] = i;//przypisanie dziecka do lewego korzenia
 		}
 		else
 		{
-			rightt[y] = i;//przypisanie dziecka do prawego poddrzewa
+			rightt[y] = i;//przypisanie dziecka do prawego korzenia
 		}
 	}
 }
@@ -91,7 +124,7 @@ int bst_min(int x)
 int main()
 {
 	int x,k;
-    std::cout << "Podaj wielkosc zbioru";
+    std::cout << "Podaj wielkosc zbioru: ";
 	cin >> x;
 	p = new int [x+1];
 	leftt = new int [x+1];
