@@ -16,7 +16,6 @@ void bst_inorder(int x)
 		if (leftt[current] == 0)
 		{
 			cout << key[current] << " ";
-			if(rightt[current !=0])
 			current = rightt[current];
 		}
 		else
@@ -26,14 +25,14 @@ void bst_inorder(int x)
 			{
 				pre = rightt[pre];
 			}
-			if (pre[rightt] == 0)
+			if (rightt[pre] == 0)
 			{
-				pre[rightt] = current;
+				rightt[pre] = current;
 				current = leftt[current];
 			}
 			else
 			{
-				//rightt[pre] = 0;
+				rightt[pre] = 0;
 				cout << key[current] << " ";
 				current = rightt[current];
 			}
@@ -46,6 +45,7 @@ void bst_inorder(int x)
 		bst_inorder(rightt[x]);
 	}*/
 }
+
 void bst_insert(int z)
 {
 	i++;
@@ -121,6 +121,25 @@ int bst_min(int x)
 	return x;
 }
 
+int bst_succesor(int x)
+{
+	int y = 0;
+	if (rightt[x] != 0)
+	{
+		y = bst_min(rightt[x]);
+	}
+	else
+	{
+		y = p[x];
+		while (y != 0 && x == rightt[y])
+		{
+			x = y;
+			y = p[x];
+		}
+	}
+	return y;
+}
+
 int main()
 {
 	int x,k;
@@ -142,6 +161,8 @@ int main()
 	cout << "3: Bst-MEMBER\n";
 	cout << "4: Bst-MAX\n";
 	cout << "5: Bst-MIN\n";
+	cout << "6: Bst:SUCCESSOR\n";
+	cout << "7: Bst:DELETE\n";
 	cout << "0: Exit\n";
 	while (choice != 48)
 	{
@@ -184,6 +205,22 @@ int main()
 		case 53:
 		{
 			cout << "Min: " << key[bst_min(root)]<<endl;
+
+		}
+		break;
+		case 54:
+		{
+			cout << "Podaj index liczby: ";
+			cin >> x;
+			k = bst_succesor(x);
+			if (k != 0)
+				cout << "Nastepna liczba znajduje sie w intexie: " << k << "\n";
+			else
+				cout << "Blad\n";
+		}
+		break;
+		case 55:
+		{
 
 		}
 		break;
