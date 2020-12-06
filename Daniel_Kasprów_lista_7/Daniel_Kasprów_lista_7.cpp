@@ -140,6 +140,38 @@ int bst_succesor(int x)
 	return y;
 }
 
+void bst_delete(int z)
+{
+	int y = 0, x = 0;
+
+	if (leftt[z] == 0 || rightt[z] == 0)//jesli ma max 1 syna
+		y = z;
+	else
+		y = bst_succesor(z);
+	x = leftt[y];
+	if (x == 0)
+		x = rightt[y];
+	if (x!=0)
+		p[x] = p[y];
+
+	if (p[y] == 0)//jeœli usuwany jest wierzcholek
+		root = x;
+	else
+	{
+		if (y == leftt[p[y]])
+			leftt[p[y]] = x;
+		else
+			rightt[p[y]] = x;
+	}
+
+	if (y != x)
+		key[z] = key[y];
+	key[y] = NULL;
+	leftt[y] = 0;
+	rightt[y] = 0;
+	p[y]=0;
+}
+
 int main()
 {
 	int x,k;
@@ -150,7 +182,7 @@ int main()
 	rightt = new int [x+1];
 	key = new int [x+1];
 	char choice = 1;
-	for (x + 1; x > 0; x--)
+	for (x + 1; x >= 0; x--)
 	{
 		p[x] = 0;
 		leftt[x] = 0;
@@ -221,6 +253,11 @@ int main()
 		break;
 		case 55:
 		{
+			cin >> x;
+			for(int k=0;k<12;k++)
+				cout << key[k]<<" " << leftt[k] << " " << rightt[k] << " " << p[k]<<endl;
+			cout << root;
+			bst_delete(x);
 
 		}
 		break;
