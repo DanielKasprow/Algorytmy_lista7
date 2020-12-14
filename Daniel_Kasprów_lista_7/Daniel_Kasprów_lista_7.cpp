@@ -49,6 +49,7 @@ void bst_inorder(int x)
 void bst_insert(int z)
 {
 	i++;
+	if (i < 1)i = 1;
 	key[i] = z;
 
 	int x = root;//wiercholek drzewa
@@ -124,9 +125,9 @@ int bst_min(int x)
 int bst_succesor(int x)
 {
 	int y = 0;
-	if (rightt[x] != 0)
+	if (rightt[x] != 0)//jeœli posiada prawe dziecko
 	{
-		y = bst_min(rightt[x]);
+		y = bst_min(rightt[x]);//najmniejszy element prawego dziecka
 	}
 	else
 	{
@@ -154,11 +155,11 @@ void bst_delete(int z)
 	if (x!=0)
 		p[x] = p[y];
 
-	if (p[y] == 0)//jeœli usuwany jest wierzcholek
+	if (p[y] == 0)
 		root = x;
 	else
 	{
-		if (y == leftt[p[y]])
+		if (y == leftt[p[y]])//sprawdzanie ktorym dzieckiem jest od rodzica
 			leftt[p[y]] = x;
 		else
 			rightt[p[y]] = x;
@@ -166,10 +167,35 @@ void bst_delete(int z)
 
 	if (y != x)
 		key[z] = key[y];
-	key[y] = NULL;
-	leftt[y] = 0;
-	rightt[y] = 0;
-	p[y]=0;
+
+	if(y!=i)//jesli usuwany element nie jest ostatnim elementem indexu
+	{
+		key[y] = key[i];
+		leftt[y] = leftt[i];
+		rightt[y] = rightt[i];
+		p[y] = p[i];
+
+		if (leftt[p[i]] == i)
+			leftt[p[i]] = y;
+		else
+			rightt[p[i]] = y;
+
+		p[leftt[i]] = y;
+		p[rightt[i]] = y;
+	}
+
+	if (leftt[p[i]] == i && leftt[p[i]] != 0)
+		leftt[p[i]] = 0;
+	else if (rightt[p[i]] != 0)
+		rightt[p[i]] = 0;
+	key[i] = NULL;
+	leftt[i] = 0;
+	rightt[i] = 0;
+	p[i] = 0;
+
+	if (root == i)
+		root = y;
+	i--;
 }
 
 int main()
@@ -242,22 +268,27 @@ int main()
 		break;
 		case 54:
 		{
-			cout << "Podaj index liczby: ";
+			cout << "Podaj liczbe: ";
 			cin >> x;
-			k = bst_succesor(x);
-			if (k != 0)
-				cout << "Nastepna liczba znajduje sie w intexie: " << k << "\n";
+			k = bst_member(x);
+			x = bst_succesor(k);
+			if (x != 0)
+				cout << "Nastepna liczba to: " << key[x] << "\n";
 			else
 				cout << "Blad\n";
 		}
 		break;
 		case 55:
 		{
+			cout << "Podaj liczbe do usuniecia: ";
 			cin >> x;
-			for(int k=0;k<12;k++)
-				cout << key[k]<<" " << leftt[k] << " " << rightt[k] << " " << p[k]<<endl;
-			cout << root;
-			bst_delete(x);
+			k = bst_member(x);
+			for (int g = 1; g <= i; g++)
+				cout << key[g] << " " << leftt[g] << " " << rightt[g] << " " << p[g] << endl;
+			bst_delete(k);
+			cout << endl;
+			for (int g = 1; g <= i; g++)
+				cout << key[g] << " " << leftt[g] << " " << rightt[g] << " " << p[g] << endl;
 
 		}
 		break;
